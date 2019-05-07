@@ -1,0 +1,232 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "self"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "download"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "signedLink"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "permalink"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "minItems": 3,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The upload date/time"
+                },
+                "description": {
+                    "description": "The File description",
+                    "type": "string"
+                },
+                "extension": {
+                    "description": "The File extension",
+                    "type": "string"
+                },
+                "height": {
+                    "description": "Image height, applicable to images only",
+                    "readOnly": true,
+                    "type": "integer"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "readOnly": true
+                },
+                "isPublic": {
+                    "description": "Is the file available publicly (without authentication). If true, the permalink in the _links section contains the public URL.",
+                    "type": "boolean"
+                },
+                "mime": {
+                    "description": "The mime type",
+                    "enum": [
+                        "image/png",
+                        "image/jpeg",
+                        "image/gif",
+                        "application/pdf",
+                        "audio/mpeg"
+                    ],
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Original File name",
+                    "type": "string"
+                },
+                "sha1": {
+                    "description": "Hash sum of the file",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "size": {
+                    "description": "The File size in bytes",
+                    "readOnly": true,
+                    "type": "integer"
+                },
+                "tags": {
+                    "description": "The tags list",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The latest update date/time"
+                },
+                "url": {
+                    "description": "Write-only. If defined on POST, this would be used as a file source.",
+                    "type": "string"
+                },
+                "width": {
+                    "description": "Image width, applicable to images only",
+                    "readOnly": true,
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

@@ -1,0 +1,247 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "href": {
+                                        "description": "The link URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href"
+                                ],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "rel": {
+                                "description": "The link type",
+                                "enum": [
+                                    "self"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "rel"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Plan created time"
+                },
+                "currency": {
+                    "description": "Currency (three letter ISO 4217 code)",
+                    "type": "string"
+                },
+                "currencySign": {
+                    "description": "Currency sign",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "description": {
+                    "description": "The plan description (deprecated)",
+                    "type": "string"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The plan identifier string",
+                    "readOnly": true
+                },
+                "isActive": {
+                    "description": "If the plan is not active, customers cannot subscribe to the plan.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "The plan name, displayed on invoices and receipts.",
+                    "type": "string"
+                },
+                "pricing": {
+                    "discriminator": {
+                        "propertyName": "formula"
+                    },
+                    "properties": {
+                        "formula": {
+                            "description": "The price formula determines what algorithm is used to calculate the invoice price based on a few factors,\n- the quantity in the subscription (which may be variable if usage pricing, otherwise determined when creating the subscription)\n- the price brackets data\n\nTo determine which formula is correct, please see the price formula documentation.\n",
+                            "enum": [
+                                "fixed-fee",
+                                "flat-rate",
+                                "stairstep",
+                                "tiered",
+                                "volume"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "formula"
+                    ],
+                    "type": "object"
+                },
+                "productId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The related product identifier string"
+                },
+                "productOptions": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Name-value pairs to specify the product options.",
+                    "example": {
+                        "color": "red",
+                        "size": "xxl"
+                    },
+                    "type": "object"
+                },
+                "recurringInterval": {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "length": {
+                                    "description": "The length of time",
+                                    "type": "integer"
+                                },
+                                "unit": {
+                                    "description": "The unit of time",
+                                    "enum": [
+                                        "day",
+                                        "week",
+                                        "month",
+                                        "year"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "unit",
+                                "length"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "properties": {
+                                "limit": {
+                                    "description": "The number of invoices this subscription will generate (if 1, it will not generate any beyond the initial subscription creation).  For example, set this property to `12`, when the `periodUnit` is month and the `periodLength` is 1, for a 1 year contract billed monthly.",
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ],
+                    "description": "The billing interval. For a one-time item, use `null`."
+                },
+                "richDescription": {
+                    "description": "The plan rich description - supports HTML (deprecated)",
+                    "type": "string"
+                },
+                "setup": {
+                    "description": "The setup. Set `null` if no setup.",
+                    "properties": {
+                        "price": {
+                            "description": "The price of a setup - 0 is a valid value (for free)",
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "price"
+                    ],
+                    "type": "object"
+                },
+                "trial": {
+                    "description": "The trial. Set `null` if no trial.",
+                    "properties": {
+                        "period": {
+                            "properties": {
+                                "length": {
+                                    "description": "The length of time",
+                                    "type": "integer"
+                                },
+                                "unit": {
+                                    "description": "The unit of time",
+                                    "enum": [
+                                        "day",
+                                        "week",
+                                        "month",
+                                        "year"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "unit",
+                                "length"
+                            ],
+                            "type": "object"
+                        },
+                        "price": {
+                            "description": "The price of the trial. For a free trial, use `0`.",
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "price",
+                        "period"
+                    ],
+                    "type": "object"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Plan updated time"
+                }
+            },
+            "required": [
+                "name",
+                "currency",
+                "productId",
+                "pricing"
+            ],
+            "type": "object"
+        }
+    }
+}

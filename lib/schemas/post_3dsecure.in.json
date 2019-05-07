@@ -1,0 +1,174 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "href": {
+                                        "description": "The link URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href"
+                                ],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "rel": {
+                                "description": "The link type",
+                                "enum": [
+                                    "self"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "rel"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "amount": {
+                    "description": "Transaction amount",
+                    "format": "double",
+                    "type": "number"
+                },
+                "cavv": {
+                    "description": "The 3D Secure entry cardholder authentication verification value",
+                    "type": "string"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The 3D Secure entry created time"
+                },
+                "currency": {
+                    "description": "The currency three letter code",
+                    "type": "string"
+                },
+                "customerId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Related customer ID"
+                },
+                "eci": {
+                    "description": "The 3D Secure entry electronic commerce indicator",
+                    "type": "integer"
+                },
+                "enrolled": {
+                    "description": "Is the cardholder enrolled in 3DSecure",
+                    "enum": [
+                        "Y",
+                        "N",
+                        "U"
+                    ],
+                    "type": "string"
+                },
+                "enrollmentEci": {
+                    "description": "The 3D Secure entry enrollment eci",
+                    "type": "string"
+                },
+                "gatewayAccountId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Related gateway account ID"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The 3D Secure entry identifier string",
+                    "readOnly": true
+                },
+                "payerAuthResponseStatus": {
+                    "description": "The 3D Secure entry Auth Response Status",
+                    "enum": [
+                        "Y",
+                        "N",
+                        "U",
+                        "A"
+                    ],
+                    "type": "string"
+                },
+                "paymentCardId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Related payment card ID"
+                },
+                "signatureVerification": {
+                    "description": "If signature was verified",
+                    "enum": [
+                        "Y",
+                        "N"
+                    ],
+                    "type": "string"
+                },
+                "websiteId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Related Website ID"
+                },
+                "xid": {
+                    "description": "The 3D Secure entry transaction Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "enrolled",
+                "enrollmentEci",
+                "customerId",
+                "gatewayAccountId",
+                "paymentCardId",
+                "websiteId",
+                "currency",
+                "amount"
+            ],
+            "type": "object"
+        }
+    }
+}

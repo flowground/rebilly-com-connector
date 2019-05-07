@@ -1,0 +1,2577 @@
+{
+    "title": "Rebilly",
+    "description": "# Introduction\nThe Rebilly API is built on HTTP.  Our API is RESTful.  It has predictable\nresource URLs.  It returns HTTP response codes to indicate errors.  It also\naccepts and returns JSON in the HTTP body.  You can use your favorite\nHTTP/REST library for your programming language to use Rebilly's API, or\nyou can use one of our SDKs (currently available in [PHP](https://github.com/Rebilly/rebilly-php)\nand [Javascript](https://github.com/Rebilly/rebilly-js-sdk)).\n\nWe have other APIs that are also available.  Every action from our [app](https://app.rebilly.com)\nis supported by an API which is documented and available for use so that you\nmay automate any workflows necessary.  This document contains the most commonly\nintegrated resources.\n\n# Authentication\nWhen you sign up for an account, you are given your first API key.\nYou can generate additional API keys, and delete API keys (as you may\nneed to rotate your keys in the future). You authenticate to the\nRebilly API by providing your secret key in the request header.\n\nRebilly offers three forms of authentication:  secret key, publishable key, JSON Web Tokens, and public signature key.\n- [Secret API key](#section/Authentication/SecretApiKey): used for requests made from the server side. Never share these keys. Keep them guarded and secure\n- [Publishable API key](#section/Authentication/PublishableApiKey): used for requests from the client side. For now can only be used on the [Tokens resource](#tag/Payment-Tokens%2Fpaths%2F~1tokens%2Fpost)\n- [JWT](#section/Authentication/JWT): short lifetime tokens that can be assigned a specific expiration time\n\nNever share your secret keys. Keep them guarded and secure.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n\n# PHP SDK\nFor all PHP SDK examples provided in this spec you will need to configure `$client`.\nYou may do it like this:\n\n```php\n$client = new Rebilly\\Client([\n    'apiKey' => 'YourApiKeyHere',\n    'baseUrl' => 'https://api.rebilly.com',\n]);\n```\n\n# Using filter\nRebilly provides collections filtering. You can use `?filter` param on collection to define which records should be shown in the response.\n\nHere is filter format description:\n\n- Fields and values in filter are separated with `:`: `?filter=firstName:John`.\n\n- Fields in filter are separated with `;`: `?filter=firstName:John;lastName:Doe`.\n\n- You can use multiple values using `,` as values separator: `?filter=firstName:John,Bob`.\n\n- To negate the filter use `!`: `?filter=firstName:!John`. Note that you can negate multiple values like this: `?filter=firstName:!John,Bob`. This filter rule will exclude all Johns and Bobs from the response.\n\n- You can use range filters like this: `?filter=amount:1..10`.\n\n- You can use gte (greater than or equals) filter like this: `?filter=amount:1..`, or lte (less than or equals) than filter like this: `?filter=amount:..10`.\n\n- You can create some [predefined values lists](https://rebilly.github.io/RebillyUserAPI/#tag/Lists) and use them in filter: `?filter=firstName:@yourListName`. You can also exclude list values: `?filter=firstName:!@yourListName`\n",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/rebilly.com/2.1/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://api.rebilly.com/v2.1 - Live Server",
+                    "https://api-sandbox.rebilly.com/v2.1 - Sandbox Server",
+                    "https://api.rebilly.com/v2.1",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "JWT": {
+                "label": "Authorization (JWT)",
+                "viewClass": "TextFieldView",
+                "note": "You can create a JSON Web Token (JWT) via our [Sessions resource](https://rebilly.github.io/RebillyUserAPI/#tag/Sessions%2Fpaths%2F~1signin%2Fpost).\nUsage format: `Bearer <JWT>`\n"
+            },
+            "PublishableApiKey": {
+                "label": "Authorization (PublishableApiKey)",
+                "viewClass": "TextFieldView",
+                "note": "Only for the Tokens resource.\nYou can create a Publishable API Key via our [API Keys resource](https://rebilly.github.io/RebillyUserAPI/#tag/API-Keys), by specifying the type as `publishable`.\n"
+            },
+            "SecretApiKey": {
+                "label": "REB-APIKEY (SecretApiKey)",
+                "viewClass": "TextFieldView",
+                "note": "When you sign up for an account, you are given your first secret API key.\nTo do so please [follow this link.](https://app.rebilly.com/signup)\nAlso you can generate additional API keys, and delete API keys (as you may\nneed to rotate your keys in the future).\n"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_3dsecure": {
+            "main": "./lib/actions/get_3dsecure.js",
+            "title": "Retrieve a list of ThreeDSecure entries",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_3dsecure.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_3dsecure": {
+            "main": "./lib/actions/post_3dsecure.js",
+            "title": "Create a ThreeDSecure entry",
+            "description": "Create a ThreeDSecure entry\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_3dsecure.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_3dsecure__id_": {
+            "main": "./lib/actions/get_3dsecure__id_.js",
+            "title": "Retrieve a ThreeDSecure entry",
+            "description": "Retrieve a ThreeDSecure entry with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_3dsecure__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_attachments": {
+            "main": "./lib/actions/get_attachments.js",
+            "title": "Retrieve a list of Attachments",
+            "description": "Retrieve a list of Attachments\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_attachments.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_attachments": {
+            "main": "./lib/actions/post_attachments.js",
+            "title": "Create an Attachment",
+            "description": "Create an Attachment\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_attachments.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_attachments__id_": {
+            "main": "./lib/actions/delete_attachments__id_.js",
+            "title": "Delete an Attachment",
+            "description": "Delete the Attachment with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_attachments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_attachments__id_": {
+            "main": "./lib/actions/get_attachments__id_.js",
+            "title": "Retrieve an Attachment",
+            "description": "Retrieve a Attachment with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_attachments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_attachments__id_": {
+            "main": "./lib/actions/put_attachments__id_.js",
+            "title": "Update the Attachment with predefined ID",
+            "description": "Update the Attachment with predefined ID\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_attachments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_authentication_options": {
+            "main": "./lib/actions/get_authentication_options.js",
+            "title": "Read current authentication options",
+            "description": "Read current authentication options\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_authentication_options.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_authentication_options": {
+            "main": "./lib/actions/put_authentication_options.js",
+            "title": "Change authentication options",
+            "description": "Change options\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_authentication_options.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_authentication_tokens": {
+            "main": "./lib/actions/get_authentication_tokens.js",
+            "title": "Retrieve a list of auth tokens",
+            "description": "Retrieve a list of auth tokens\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_authentication_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_authentication_tokens": {
+            "main": "./lib/actions/post_authentication_tokens.js",
+            "title": "Login",
+            "description": "Login a user (customer)\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_authentication_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_authentication_tokens__token_": {
+            "main": "./lib/actions/delete_authentication_tokens__token_.js",
+            "title": "Logout a user",
+            "description": "Logout a user\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_authentication_tokens__token_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_authentication_tokens__token_": {
+            "main": "./lib/actions/get_authentication_tokens__token_.js",
+            "title": "Verify",
+            "description": "Verify an authentication token\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_authentication_tokens__token_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_bank_accounts": {
+            "main": "./lib/actions/get_bank_accounts.js",
+            "title": "Retrieve a list of bank accounts",
+            "description": "Retrieve a list of Bank Accounts\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_bank_accounts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_bank_accounts": {
+            "main": "./lib/actions/post_bank_accounts.js",
+            "title": "Create a Bank Account",
+            "description": "Create a Bank Account\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_bank_accounts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_bank_accounts__id_": {
+            "main": "./lib/actions/get_bank_accounts__id_.js",
+            "title": "Retrieve a Bank Account",
+            "description": "Retrieve a Bank Account with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_bank_accounts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_bank_accounts__id_": {
+            "main": "./lib/actions/put_bank_accounts__id_.js",
+            "title": "Create a BankAccount with predefined ID",
+            "description": "Create or update a BankAccount with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_bank_accounts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_bank_accounts__id__deactivation": {
+            "main": "./lib/actions/post_bank_accounts__id__deactivation.js",
+            "title": "Deactivate a Bank Account",
+            "description": "Deactivate a Bank Account\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_bank_accounts__id__deactivation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_blacklists": {
+            "main": "./lib/actions/get_blacklists.js",
+            "title": "Retrieve a list of blacklists",
+            "description": "Retrieve a list of blacklists\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_blacklists.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_blacklists": {
+            "main": "./lib/actions/post_blacklists.js",
+            "title": "Create a blacklist",
+            "description": "Create a blacklist\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_blacklists.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_blacklists__id_": {
+            "main": "./lib/actions/delete_blacklists__id_.js",
+            "title": "Delete a blacklist",
+            "description": "Delete a blacklist with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_blacklists__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_blacklists__id_": {
+            "main": "./lib/actions/get_blacklists__id_.js",
+            "title": "Retrieve a blacklist",
+            "description": "Retrieve a blacklist with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_blacklists__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_blacklists__id_": {
+            "main": "./lib/actions/put_blacklists__id_.js",
+            "title": "Create a blacklist with predefined ID",
+            "description": "Create a blacklist with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_blacklists__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_contacts": {
+            "main": "./lib/actions/get_contacts.js",
+            "title": "Retrieve a list of contacts",
+            "description": "Retrieve a list of contacts\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_contacts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_contacts": {
+            "main": "./lib/actions/post_contacts.js",
+            "title": "Create a contact",
+            "description": "Create a contact\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_contacts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_contacts__id_": {
+            "main": "./lib/actions/delete_contacts__id_.js",
+            "title": "Delete a contact",
+            "description": "Delete a contact with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_contacts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_contacts__id_": {
+            "main": "./lib/actions/get_contacts__id_.js",
+            "title": "Retrieve a contact",
+            "description": "Retrieve a contact with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_contacts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_contacts__id_": {
+            "main": "./lib/actions/put_contacts__id_.js",
+            "title": "Create or update a contact with predefined ID",
+            "description": "Create or update a contact with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_contacts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_coupons": {
+            "main": "./lib/actions/get_coupons.js",
+            "title": "Retrieve a list of coupons",
+            "description": "Retrieve a list of coupons\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_coupons.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_coupons": {
+            "main": "./lib/actions/post_coupons.js",
+            "title": "Create a coupon",
+            "description": "Create a coupon\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_coupons.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_coupons_redemptions": {
+            "main": "./lib/actions/get_coupons_redemptions.js",
+            "title": "Retrieve a list of coupon redemptions",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_coupons_redemptions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_coupons_redemptions": {
+            "main": "./lib/actions/post_coupons_redemptions.js",
+            "title": "Redeem a coupon",
+            "description": "Redeem a coupon\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_coupons_redemptions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_coupons_redemptions__id_": {
+            "main": "./lib/actions/get_coupons_redemptions__id_.js",
+            "title": "Retrieve a coupon redemption with specified identifier string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_coupons_redemptions__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_coupons_redemptions__id__cancel": {
+            "main": "./lib/actions/post_coupons_redemptions__id__cancel.js",
+            "title": "Cancel a coupon redemption",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_coupons_redemptions__id__cancel.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_coupons__redemptionCode_": {
+            "main": "./lib/actions/get_coupons__redemptionCode_.js",
+            "title": "Retrieve a coupon",
+            "description": "Retrieve a coupon with specified redemption code string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_coupons__redemptionCode_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_coupons__redemptionCode_": {
+            "main": "./lib/actions/put_coupons__redemptionCode_.js",
+            "title": "Create or update a coupon with predefined redemption code",
+            "description": "Create or update a coupon with predefined redemption code\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_coupons__redemptionCode_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_coupons__redemptionCode__expiration": {
+            "main": "./lib/actions/post_coupons__redemptionCode__expiration.js",
+            "title": "Set a coupon's expiration time.",
+            "description": "Set a coupon's expiry time with the specified redemption code.\nThe expiredTime of a coupon must be greater than its issuedTime.\nThis cannot be performed on expired coupons.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_coupons__redemptionCode__expiration.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_credentials": {
+            "main": "./lib/actions/get_credentials.js",
+            "title": "Retrieve a list of credentials",
+            "description": "Retrieve a list of credentials\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_credentials.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_credentials": {
+            "main": "./lib/actions/post_credentials.js",
+            "title": "Create a credential",
+            "description": "Create a credential\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_credentials.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_credentials__id_": {
+            "main": "./lib/actions/delete_credentials__id_.js",
+            "title": "Delete a credential",
+            "description": "Delete a credential with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_credentials__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_credentials__id_": {
+            "main": "./lib/actions/get_credentials__id_.js",
+            "title": "Retrieve a credential",
+            "description": "Retrieve a credential with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_credentials__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_credentials__id_": {
+            "main": "./lib/actions/put_credentials__id_.js",
+            "title": "Create or update a credential with predefined ID",
+            "description": "Create or update a credential with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_credentials__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_custom_fields__resource_": {
+            "main": "./lib/actions/get_custom_fields__resource_.js",
+            "title": "Retrieve Custom Fields",
+            "description": "Retrieve a schema of Custom Fields for the given resource type\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_custom_fields__resource_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_custom_fields__resource___name_": {
+            "main": "./lib/actions/get_custom_fields__resource___name_.js",
+            "title": "Retrieve a Custom Field",
+            "description": "Retrieve a schema of the given Custom Field for the given resource type\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_custom_fields__resource___name_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_custom_fields__resource___name_": {
+            "main": "./lib/actions/put_custom_fields__resource___name_.js",
+            "title": "Create or alter a Custom Field",
+            "description": "Create or alter a schema of the given Custom Field for the given resource type.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_custom_fields__resource___name_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_customers": {
+            "main": "./lib/actions/get_customers.js",
+            "title": "Retrieve a list of customers",
+            "description": "Retrieve a list of customers\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_customers.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_customers": {
+            "main": "./lib/actions/post_customers.js",
+            "title": "Create a customer",
+            "description": "Create a customer\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_customers.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_customers__id_": {
+            "main": "./lib/actions/get_customers__id_.js",
+            "title": "Retrieve a customer",
+            "description": "Retrieve a customer with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_customers__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_customers__id_": {
+            "main": "./lib/actions/put_customers__id_.js",
+            "title": "Create a customer with predefined ID",
+            "description": "Create a customer with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_customers__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_customers__id__lead_source": {
+            "main": "./lib/actions/delete_customers__id__lead_source.js",
+            "title": "Delete a Lead Source for a customer",
+            "description": "Delete a Lead Source that belongs to a certain customer\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_customers__id__lead_source.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_customers__id__lead_source": {
+            "main": "./lib/actions/get_customers__id__lead_source.js",
+            "title": "Retrieve a customer's Lead Source",
+            "description": "Retrieve a Lead Source of given customer\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_customers__id__lead_source.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_customers__id__lead_source": {
+            "main": "./lib/actions/put_customers__id__lead_source.js",
+            "title": "Create a Lead Source for a customer",
+            "description": "Create a Lead Source for a customer\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_customers__id__lead_source.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_disputes": {
+            "main": "./lib/actions/get_disputes.js",
+            "title": "Retrieve a list of disputes",
+            "description": "Retrieve a list of disputes\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_disputes.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_disputes": {
+            "main": "./lib/actions/post_disputes.js",
+            "title": "Create a dispute",
+            "description": "Create a dispute\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_disputes.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_disputes__id_": {
+            "main": "./lib/actions/get_disputes__id_.js",
+            "title": "Retrieve a dispute",
+            "description": "Retrieve a dispute with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_disputes__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_disputes__id_": {
+            "main": "./lib/actions/put_disputes__id_.js",
+            "title": "Create or update a Dispute with predefined ID",
+            "description": "Create or update a Dispute with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_disputes__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_disputes__id__matched_rules": {
+            "main": "./lib/actions/get_disputes__id__matched_rules.js",
+            "title": "Get matched rules for the dispute",
+            "description": "Get matched rules for the dispute",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_disputes__id__matched_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_files": {
+            "main": "./lib/actions/get_files.js",
+            "title": "Retrieve a list of files",
+            "description": "Retrieve a list of files\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_files.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_files": {
+            "main": "./lib/actions/post_files.js",
+            "title": "Create a file",
+            "description": "Additionally, a file can be sent with:\n - multipart/form-data POST request: in this case all property names are the same as the JSON ones (`file` is an uploaded file)\n - file body request: the file body is sent as the request body, with the appropriate `Content-Type`. No aditional\n properties can be set along the request data\n\nThe following file types only are allowed:\n - jpg\n - png\n - gif\n - pdf\n - mp3\n\n\nIf using a Publishable Api Key, only private files can be created. The files can later on be modified or used using\n a secret API key.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_files.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_files__id_": {
+            "main": "./lib/actions/delete_files__id_.js",
+            "title": "Delete a File",
+            "description": "Delete the File with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_files__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_files__id_": {
+            "main": "./lib/actions/get_files__id_.js",
+            "title": "Retrieve a File Record",
+            "description": "Retrieve a File with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_files__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_files__id_": {
+            "main": "./lib/actions/put_files__id_.js",
+            "title": "Update the File with predefined ID. Note that file can be uploaded with POST only.",
+            "description": "Update the File with predefined ID\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_files__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_files__id__download": {
+            "main": "./lib/actions/get_files__id__download.js",
+            "title": "Download a file",
+            "description": "Download a file\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_files__id__download.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_files__id__download_extension_": {
+            "main": "./lib/actions/get_files__id__download_extension_.js",
+            "title": "Download image in specific format",
+            "description": "Download image in specific format. Images are converted server-side\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_files__id__download_extension_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_invoices": {
+            "main": "./lib/actions/get_invoices.js",
+            "title": "Retrieve a list of invoices",
+            "description": "Retrieve a list of invoices\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_invoices.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_invoices": {
+            "main": "./lib/actions/post_invoices.js",
+            "title": "Create an invoice",
+            "description": "Create an invoice\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_invoices.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_invoices__id_": {
+            "main": "./lib/actions/get_invoices__id_.js",
+            "title": "Retrieve an invoice",
+            "description": "Retrieve an invoice with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_invoices__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_invoices__id_": {
+            "main": "./lib/actions/put_invoices__id_.js",
+            "title": "Create or update an invoice with predefined ID",
+            "description": "Create or update an invoice with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_invoices__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_invoices__id__abandon": {
+            "main": "./lib/actions/post_invoices__id__abandon.js",
+            "title": "Abandon an invoice",
+            "description": "Abandon an invoice with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_invoices__id__abandon.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_invoices__id__issue": {
+            "main": "./lib/actions/post_invoices__id__issue.js",
+            "title": "Issue an invoice",
+            "description": "Issue an invoice with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_invoices__id__issue.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_invoices__id__items": {
+            "main": "./lib/actions/get_invoices__id__items.js",
+            "title": "Retrieve invoice items",
+            "description": "Retrieve an invoice items with specified invoice identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_invoices__id__items.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_invoices__id__items": {
+            "main": "./lib/actions/post_invoices__id__items.js",
+            "title": "Create an invoice item",
+            "description": "Create an invoice item\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_invoices__id__items.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_invoices__id__matched_rules": {
+            "main": "./lib/actions/get_invoices__id__matched_rules.js",
+            "title": "Get matched rules for the invoice",
+            "description": "Get matched rules for the invoice",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_invoices__id__matched_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_invoices__id__void": {
+            "main": "./lib/actions/post_invoices__id__void.js",
+            "title": "Void an invoice",
+            "description": "Void an invoice with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_invoices__id__void.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_kyc_documents": {
+            "main": "./lib/actions/get_kyc_documents.js",
+            "title": "Retrieve a list of KYC documents",
+            "description": "Retrieve a list of KYC documents\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_kyc_documents.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_kyc_documents": {
+            "main": "./lib/actions/post_kyc_documents.js",
+            "title": "Create a KYC Document",
+            "description": "Create a KYC Document\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_kyc_documents.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_kyc_documents__id_": {
+            "main": "./lib/actions/get_kyc_documents__id_.js",
+            "title": "Retrieve a KYC Document",
+            "description": "Retrieve a KYC document with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_kyc_documents__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_kyc_documents__id_": {
+            "main": "./lib/actions/put_kyc_documents__id_.js",
+            "title": "Create or update a KYC document with predefined ID",
+            "description": "Create or update a KYC document with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_kyc_documents__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_kyc_documents__id__acceptance": {
+            "main": "./lib/actions/post_kyc_documents__id__acceptance.js",
+            "title": "Accept a KYC document",
+            "description": "Manually override automated status and accept the document\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_kyc_documents__id__acceptance.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_kyc_documents__id__rejection": {
+            "main": "./lib/actions/post_kyc_documents__id__rejection.js",
+            "title": "Reject a KYC document",
+            "description": "Manually override automated status and reject the document\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_kyc_documents__id__rejection.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_password_tokens": {
+            "main": "./lib/actions/get_password_tokens.js",
+            "title": "Retrieve a list of tokens",
+            "description": "Retrieve a list of tokens\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_password_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_password_tokens": {
+            "main": "./lib/actions/post_password_tokens.js",
+            "title": "Create a Reset Password Token",
+            "description": "Create a Reset Password Token\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_password_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_password_tokens__id_": {
+            "main": "./lib/actions/delete_password_tokens__id_.js",
+            "title": "Delete a Reset Password Token",
+            "description": "Delete a Reset Password Token with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_password_tokens__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_password_tokens__id_": {
+            "main": "./lib/actions/get_password_tokens__id_.js",
+            "title": "Retrieve a Reset Password Token",
+            "description": "Retrieve a Reset Password Token with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_password_tokens__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payment_cards": {
+            "main": "./lib/actions/get_payment_cards.js",
+            "title": "Retrieve a list of Payment Cards",
+            "description": "Retrieve a list of Payments Cards\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payment_cards.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_payment_cards": {
+            "main": "./lib/actions/post_payment_cards.js",
+            "title": "Create a Payment Card",
+            "description": "Create a Payment Card\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_payment_cards.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payment_cards__id_": {
+            "main": "./lib/actions/get_payment_cards__id_.js",
+            "title": "Retrieve a Payment Card",
+            "description": "Retrieve a Payment Card with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payment_cards__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "patch_payment_cards__id_": {
+            "main": "./lib/actions/patch_payment_cards__id_.js",
+            "title": "Update a payment card's values",
+            "description": "Update any of the payment card's values except for the pan\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/patch_payment_cards__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_payment_cards__id_": {
+            "main": "./lib/actions/put_payment_cards__id_.js",
+            "title": "Create a payment card with predefined ID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_payment_cards__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_payment_cards__id__authorization": {
+            "main": "./lib/actions/post_payment_cards__id__authorization.js",
+            "title": "Authorize a Payment Card",
+            "description": "Authorize a Payment Card\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_payment_cards__id__authorization.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_payment_cards__id__deactivation": {
+            "main": "./lib/actions/post_payment_cards__id__deactivation.js",
+            "title": "Deactivate a Payment Card",
+            "description": "Deactivate a Payment Card\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_payment_cards__id__deactivation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payment_cards__id__matched_rules": {
+            "main": "./lib/actions/get_payment_cards__id__matched_rules.js",
+            "title": "Get matched rules for the payment card",
+            "description": "Get matched rules for the payment card",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payment_cards__id__matched_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payment_instrument_validation": {
+            "main": "./lib/actions/get_payment_instrument_validation.js",
+            "title": "Retrieve a Payment Instrument validation",
+            "description": "Retrieve a Payment Instrument validation with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payment_instrument_validation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_payment_instrument_validation": {
+            "main": "./lib/actions/post_payment_instrument_validation.js",
+            "title": "Validate a payment instrument",
+            "description": "Validate a payment instrument\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_payment_instrument_validation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payment_instrument_validation__id_": {
+            "main": "./lib/actions/get_payment_instrument_validation__id_.js",
+            "title": "Retrieve a list of validated payment instruments",
+            "description": "Retrieve a list of validated payment instruments\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payment_instrument_validation__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payments": {
+            "main": "./lib/actions/get_payments.js",
+            "title": "Retrieve a payment list",
+            "description": "Retrieve a payment list\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payments.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_payments": {
+            "main": "./lib/actions/post_payments.js",
+            "title": "Create a payment",
+            "description": "Create a payment\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_payments.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_payments__id_": {
+            "main": "./lib/actions/get_payments__id_.js",
+            "title": "Retrieve a payment",
+            "description": "Retrieve a payment with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_payments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_payments__id_": {
+            "main": "./lib/actions/put_payments__id_.js",
+            "title": "Create a payment with predefined ID",
+            "description": "Make a payment with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_payments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_paypal_accounts": {
+            "main": "./lib/actions/get_paypal_accounts.js",
+            "title": "Retrieve a list of PayPal accounts",
+            "description": "Retrieve a list of PayPal Accounts\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_paypal_accounts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_paypal_accounts": {
+            "main": "./lib/actions/post_paypal_accounts.js",
+            "title": "Create a PayPal Account",
+            "description": "Create a PayPal Account\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_paypal_accounts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_paypal_accounts__id_": {
+            "main": "./lib/actions/get_paypal_accounts__id_.js",
+            "title": "Retrieve a PayPal Account",
+            "description": "Retrieve a PayPal Account with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_paypal_accounts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_paypal_accounts__id_": {
+            "main": "./lib/actions/put_paypal_accounts__id_.js",
+            "title": "Create a PayPal account with predefined ID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_paypal_accounts__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_paypal_accounts__id__activation": {
+            "main": "./lib/actions/post_paypal_accounts__id__activation.js",
+            "title": "Activate a PayPal Account",
+            "description": "Activate a PayPal Account\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_paypal_accounts__id__activation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_paypal_accounts__id__deactivation": {
+            "main": "./lib/actions/post_paypal_accounts__id__deactivation.js",
+            "title": "Deactivate a PayPal Account",
+            "description": "Deactivate a PayPal Account\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_paypal_accounts__id__deactivation.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_plans": {
+            "main": "./lib/actions/get_plans.js",
+            "title": "Retrieve a list of plans",
+            "description": "Retrieve a list of plans\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_plans.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_plans": {
+            "main": "./lib/actions/post_plans.js",
+            "title": "Create a plan",
+            "description": "Create a plan\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_plans.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_plans__id_": {
+            "main": "./lib/actions/delete_plans__id_.js",
+            "title": "Delete a Plan",
+            "description": "Delete a Plan with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_plans__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_plans__id_": {
+            "main": "./lib/actions/get_plans__id_.js",
+            "title": "Retrieve a plan",
+            "description": "Retrieve a plan with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_plans__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_plans__id_": {
+            "main": "./lib/actions/put_plans__id_.js",
+            "title": "Create or update a Plan with predefined ID",
+            "description": "Create or update a Plan with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_plans__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_products": {
+            "main": "./lib/actions/get_products.js",
+            "title": "Retrieve a list of products",
+            "description": "Retrieve a list of products\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_products.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_products": {
+            "main": "./lib/actions/post_products.js",
+            "title": "Create a Product",
+            "description": "Create a Product\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_products.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_products__id_": {
+            "main": "./lib/actions/delete_products__id_.js",
+            "title": "Delete a product",
+            "description": "Delete a product with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_products__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_products__id_": {
+            "main": "./lib/actions/get_products__id_.js",
+            "title": "Retrieve a product",
+            "description": "Retrieve a product with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_products__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_products__id_": {
+            "main": "./lib/actions/put_products__id_.js",
+            "title": "Create a product with predefined ID",
+            "description": "Create a product with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_products__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_queue_payments": {
+            "main": "./lib/actions/get_queue_payments.js",
+            "title": "Retrieve a scheduled payment list",
+            "description": "Retrieve a scheduled payment list\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_queue_payments.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_queue_payments__id_": {
+            "main": "./lib/actions/get_queue_payments__id_.js",
+            "title": "Retrieve a scheduled payment",
+            "description": "Retrieve a payment with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_queue_payments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_queue_payments__id_": {
+            "main": "./lib/actions/put_queue_payments__id_.js",
+            "title": "Update pending payment",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_queue_payments__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_shipping_zones": {
+            "main": "./lib/actions/get_shipping_zones.js",
+            "title": "Retrieve a list of shipping zones",
+            "description": "Retrieve a list of shipping zones\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_shipping_zones.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_shipping_zones": {
+            "main": "./lib/actions/post_shipping_zones.js",
+            "title": "Create a Shipping Zone",
+            "description": "Create a Shipping Zone\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_shipping_zones.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_shipping_zones__id_": {
+            "main": "./lib/actions/delete_shipping_zones__id_.js",
+            "title": "Delete a shipping zone",
+            "description": "Delete a shipping zone with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_shipping_zones__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_shipping_zones__id_": {
+            "main": "./lib/actions/get_shipping_zones__id_.js",
+            "title": "Retrieve a shipping zone",
+            "description": "Retrieve a shipping zone with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_shipping_zones__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_shipping_zones__id_": {
+            "main": "./lib/actions/put_shipping_zones__id_.js",
+            "title": "Create a shipping zone with predefined ID",
+            "description": "Create a shipping zone with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_shipping_zones__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscription_cancellations": {
+            "main": "./lib/actions/get_subscription_cancellations.js",
+            "title": "Retrieve a list of cancellations",
+            "description": "Retrieve a list of cancellations for all subscriptions",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscription_cancellations.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_subscription_cancellations": {
+            "main": "./lib/actions/post_subscription_cancellations.js",
+            "title": "Cancel a subscription",
+            "description": "Cancel a subscription or preview the cancellation parameters before that",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_subscription_cancellations.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_subscription_cancellations__id_": {
+            "main": "./lib/actions/delete_subscription_cancellations__id_.js",
+            "title": "Delete a cancellation",
+            "description": "Delete a subscription's cancellation. Only draft can be deleted.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_subscription_cancellations__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscription_cancellations__id_": {
+            "main": "./lib/actions/get_subscription_cancellations__id_.js",
+            "title": "Retrieve a subscription cancellatopn",
+            "description": "Retrieve a subscription cancellatopn with specified identifier string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscription_cancellations__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_subscription_cancellations__id_": {
+            "main": "./lib/actions/put_subscription_cancellations__id_.js",
+            "title": "Cancel a subscription",
+            "description": "Cancel a subscription",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_subscription_cancellations__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscription_reactivations": {
+            "main": "./lib/actions/get_subscription_reactivations.js",
+            "title": "Retrieve a list of reactivations",
+            "description": "Retrieve a list of reactivations for all subscriptions",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscription_reactivations.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_subscription_reactivations": {
+            "main": "./lib/actions/post_subscription_reactivations.js",
+            "title": "Reactivate a subscription",
+            "description": "Reactivate a subscription",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_subscription_reactivations.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscription_reactivations__id_": {
+            "main": "./lib/actions/get_subscription_reactivations__id_.js",
+            "title": "Retrieve a subscription reactivation",
+            "description": "Retrieve a subscription reactivation with specified identifier string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscription_reactivations__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscriptions": {
+            "main": "./lib/actions/get_subscriptions.js",
+            "title": "Retrieve a list of subscriptions",
+            "description": "Retrieve a list of subscriptions\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscriptions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_subscriptions": {
+            "main": "./lib/actions/post_subscriptions.js",
+            "title": "Create a subscription",
+            "description": "Create a subscription\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_subscriptions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscriptions__id_": {
+            "main": "./lib/actions/get_subscriptions__id_.js",
+            "title": "Retrieve a subscription",
+            "description": "Retrieve a subscription with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscriptions__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_subscriptions__id_": {
+            "main": "./lib/actions/put_subscriptions__id_.js",
+            "title": "Create or update a subscription with predefined ID",
+            "description": "Create or update a subscription with predefined identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_subscriptions__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_subscriptions__id__change_plan": {
+            "main": "./lib/actions/post_subscriptions__id__change_plan.js",
+            "title": "Change a subscription's plan",
+            "description": "Change a subscription's plan and designate when and if there should be pro rata credits given.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_subscriptions__id__change_plan.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_subscriptions__id__interim_invoice": {
+            "main": "./lib/actions/post_subscriptions__id__interim_invoice.js",
+            "title": "Issue an interim invoice for a subscription",
+            "description": "Issue an interim invoice for a subscription, typically used in conjunction with plan changes and pro rata adjustments.\nThis process creates an invoice, adds the subscription's line items to the invoice, and issues the invoice, and applies\npayment to it if a transaction id is supplied.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_subscriptions__id__interim_invoice.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_subscriptions__id__matched_rules": {
+            "main": "./lib/actions/get_subscriptions__id__matched_rules.js",
+            "title": "Get matched rules for the subscription",
+            "description": "Get matched rules for the subscription",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_subscriptions__id__matched_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_tokens": {
+            "main": "./lib/actions/get_tokens.js",
+            "title": "Retrieve a list of tokens",
+            "description": "Retrieve a list of tokens\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_tokens": {
+            "main": "./lib/actions/post_tokens.js",
+            "title": "Create a payment token",
+            "description": "Create a token\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_tokens__token_": {
+            "main": "./lib/actions/get_tokens__token_.js",
+            "title": "Retrieve a token",
+            "description": "Retrieve a token with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_tokens__token_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_tokens__token__expiration": {
+            "main": "./lib/actions/post_tokens__token__expiration.js",
+            "title": "Expire a token",
+            "description": "Expire a token\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_tokens__token__expiration.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_transactions": {
+            "main": "./lib/actions/get_transactions.js",
+            "title": "Retrieve a list of transactions",
+            "description": "Retrieve a list of transactions\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_transactions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_transactions__id_": {
+            "main": "./lib/actions/get_transactions__id_.js",
+            "title": "Retrieve a Transaction",
+            "description": "Retrieve a Transaction with specified identifier string\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_transactions__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_transactions__id__cancel": {
+            "main": "./lib/actions/post_transactions__id__cancel.js",
+            "title": "Cancel a pending or suspended transaction",
+            "description": "Cancel a scheduled transaction. Once handled a transaction cannot be canceled",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_transactions__id__cancel.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_transactions__id__gateway_logs": {
+            "main": "./lib/actions/get_transactions__id__gateway_logs.js",
+            "title": "Retrieve a Transaction Gateway Logs",
+            "description": "Retrieve Gateway communication Logs for Transaction with specified identifier string",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_transactions__id__gateway_logs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_transactions__id__matched_rules": {
+            "main": "./lib/actions/get_transactions__id__matched_rules.js",
+            "title": "Get matched rules for the transaction",
+            "description": "Get matched rules for the transaction",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_transactions__id__matched_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_transactions__id__refund": {
+            "main": "./lib/actions/post_transactions__id__refund.js",
+            "title": "Refund a Transaction",
+            "description": "Refund a Transaction with specified identifier string.\nNote that the refund will be in the same currency as the original transaction.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_transactions__id__refund.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

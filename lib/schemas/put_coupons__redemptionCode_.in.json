@@ -1,0 +1,162 @@
+{
+    "type": "object",
+    "properties": {
+        "redemptionCode": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "description": "Coupons and Discounts",
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "href": {
+                                        "description": "The link URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href"
+                                ],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "rel": {
+                                "description": "The link type",
+                                "enum": [
+                                    "self"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "rel"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Coupon created time"
+                },
+                "description": {
+                    "description": "Your coupon description. When it is not empty this is used for invoice discount item description,\notherwise the item's description uses coupon's redemptionCode like 'Coupon \"redemptionCode\"'\n",
+                    "type": "string"
+                },
+                "discount": {
+                    "discriminator": {
+                        "propertyName": "type"
+                    },
+                    "properties": {
+                        "type": {
+                            "description": "Discount type",
+                            "enum": [
+                                "fixed",
+                                "percent"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "expiredTime": {
+                    "description": "Coupon's expire time (end time)",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "issuedTime": {
+                    "description": "Coupon's issued time (start time)",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "redemptionCode": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Coupon's redemption code",
+                    "readOnly": true
+                },
+                "redemptionsCount": {
+                    "description": "Coupon's redemptions count",
+                    "minimum": 0,
+                    "readOnly": true,
+                    "type": "integer"
+                },
+                "restrictions": {
+                    "description": "Coupon restrictions",
+                    "items": {
+                        "description": "Coupon restrictions",
+                        "discriminator": {
+                            "propertyName": "type"
+                        },
+                        "properties": {
+                            "type": {
+                                "description": "Coupon's restriction type",
+                                "enum": [
+                                    "discounts-per-redemption",
+                                    "minimum-order-amount",
+                                    "redemptions-per-customer",
+                                    "restrict-to-invoices",
+                                    "restrict-to-plans",
+                                    "restrict-to-subscriptions",
+                                    "total-redemptions"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "description": "If coupon enabled",
+                    "enum": [
+                        "issued",
+                        "expired"
+                    ],
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Coupon updated time."
+                }
+            },
+            "required": [
+                "discount",
+                "issuedTime"
+            ],
+            "type": "object"
+        }
+    }
+}

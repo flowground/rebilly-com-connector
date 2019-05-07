@@ -1,0 +1,30 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "message": {
+                    "description": "The rejection message",
+                    "example": "Provided document is unreadable",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "document-unreadable",
+                        "document-expired",
+                        "document-not-matching",
+                        "underage-person",
+                        "other"
+                    ],
+                    "type": "string"
+                }
+            },
+            "readOnly": true,
+            "type": "object"
+        }
+    }
+}

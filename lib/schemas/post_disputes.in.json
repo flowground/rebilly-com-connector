@@ -1,0 +1,340 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "self"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "transaction"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "acquirerReferenceNumber": {
+                    "description": "The dispute's acquirer reference number",
+                    "type": "string"
+                },
+                "amount": {
+                    "description": "The dispute amount",
+                    "format": "double",
+                    "type": "number"
+                },
+                "category": {
+                    "description": "The dispute's category",
+                    "enum": [
+                        "fraud",
+                        "unrecognized",
+                        "product-not-received",
+                        "product-unacceptable",
+                        "product-not-refunded",
+                        "duplicate",
+                        "subscription-canceled",
+                        "uncategorized"
+                    ],
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Dispute created time"
+                },
+                "currency": {
+                    "description": "The dispute currency ISO Alpha code",
+                    "type": "string"
+                },
+                "customerId": {
+                    "description": "The dispute's customer ID",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "deadlineTime": {
+                    "description": "Dispute deadline time",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The dispute identifier string",
+                    "readOnly": true
+                },
+                "postedTime": {
+                    "description": "Dispute posted time",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "rawResponse": {
+                    "description": "Dispute raw response from gateway",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "reasonCode": {
+                    "description": "The dispute's reason code",
+                    "enum": [
+                        "1000",
+                        "12",
+                        "2",
+                        "30",
+                        "31",
+                        "35",
+                        "37",
+                        "40",
+                        "41",
+                        "42",
+                        "46",
+                        "47",
+                        "49",
+                        "50",
+                        "53",
+                        "54",
+                        "55",
+                        "57",
+                        "59",
+                        "60",
+                        "62",
+                        "7",
+                        "70",
+                        "71",
+                        "72",
+                        "73",
+                        "74",
+                        "75",
+                        "76",
+                        "77",
+                        "79",
+                        "8",
+                        "80",
+                        "81",
+                        "82",
+                        "83",
+                        "85",
+                        "86",
+                        "93",
+                        "00",
+                        "63",
+                        "A01",
+                        "A02",
+                        "A08",
+                        "F10",
+                        "F14",
+                        "F22",
+                        "F24",
+                        "F29",
+                        "C02",
+                        "C04",
+                        "C05",
+                        "C08",
+                        "C14",
+                        "C18",
+                        "C28",
+                        "C31",
+                        "C32",
+                        "M10",
+                        "M49",
+                        "P01",
+                        "P03",
+                        "P04",
+                        "P05",
+                        "P07",
+                        "P08",
+                        "P22",
+                        "P23",
+                        "R03",
+                        "R13",
+                        "M01",
+                        "FR1",
+                        "FR4",
+                        "FR6",
+                        "AL",
+                        "AP",
+                        "AW",
+                        "CA",
+                        "CD",
+                        "CR",
+                        "DA",
+                        "DP",
+                        "DP1",
+                        "EX",
+                        "IC",
+                        "IN",
+                        "IS",
+                        "LP",
+                        "N",
+                        "NA",
+                        "NC",
+                        "P",
+                        "RG",
+                        "RM",
+                        "RN1",
+                        "RN2",
+                        "SV",
+                        "TF",
+                        "TNM",
+                        "UA01",
+                        "UA02",
+                        "UA32",
+                        "UA99",
+                        "UA03",
+                        "UA10",
+                        "UA11",
+                        "UA12",
+                        "UA18",
+                        "UA20",
+                        "UA21",
+                        "UA22",
+                        "UA23",
+                        "UA28",
+                        "UA30",
+                        "UA31",
+                        "UA38",
+                        "duplicate",
+                        "fraudulent",
+                        "subscription_canceled",
+                        "product_unacceptable",
+                        "product_not_received",
+                        "unrecognized",
+                        "credit_not_processed",
+                        "customer_initiated",
+                        "incorrect_account_details",
+                        "insufficient_funds",
+                        "bank_cannot_process",
+                        "debit_not_authorized",
+                        "general"
+                    ],
+                    "type": "string"
+                },
+                "resolvedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Dispute resolved time"
+                },
+                "status": {
+                    "description": "The dispute's status",
+                    "enum": [
+                        "response-needed",
+                        "under-review",
+                        "forfeited",
+                        "won",
+                        "lost",
+                        "unknown"
+                    ],
+                    "type": "string"
+                },
+                "transactionId": {
+                    "description": "The dispute's transaction ID",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "The dispute's type",
+                    "enum": [
+                        "information-request",
+                        "first-chargeback",
+                        "second-chargeback",
+                        "arbitration"
+                    ],
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Dispute updated time"
+                }
+            },
+            "required": [
+                "currency",
+                "transactionId",
+                "postedTime",
+                "type",
+                "status",
+                "reasonCode"
+            ],
+            "type": "object"
+        }
+    }
+}

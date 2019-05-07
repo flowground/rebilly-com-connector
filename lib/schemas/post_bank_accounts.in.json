@@ -1,0 +1,264 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "self"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "customer"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "accountNumber": {
+                    "description": "Bank's Account Number. Required if bank account is not created from Token. This field is write-only",
+                    "type": "string"
+                },
+                "accountType": {
+                    "description": "Banks's Account type. Required if bank account is not created from Token",
+                    "type": "string"
+                },
+                "address": {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "address": {
+                                    "description": "The contact street address",
+                                    "maxLength": 60,
+                                    "type": "string"
+                                },
+                                "address2": {
+                                    "description": "The contact street address (second line)",
+                                    "maxLength": 60,
+                                    "type": "string"
+                                },
+                                "city": {
+                                    "description": "The contact city",
+                                    "maxLength": 45,
+                                    "type": "string"
+                                },
+                                "country": {
+                                    "description": "The contact country ISO Alpha-2 code",
+                                    "pattern": "^[A-Z]{2}$",
+                                    "type": "string"
+                                },
+                                "emails": {
+                                    "description": "The contact emails",
+                                    "items": {
+                                        "properties": {
+                                            "label": {
+                                                "description": "The email label",
+                                                "type": "string"
+                                            },
+                                            "primary": {
+                                                "description": "True if email is primary",
+                                                "type": "boolean"
+                                            },
+                                            "value": {
+                                                "description": "The email value",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "label",
+                                            "value"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "firstName": {
+                                    "description": "The contact first name",
+                                    "type": "string"
+                                },
+                                "hash": {
+                                    "description": "A hash that can be used to compare multiple contacts for identical attribute values",
+                                    "example": "056ae6d97c788b9e98b049ebafd7b229bf852221",
+                                    "maxLength": 40,
+                                    "readOnly": true,
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "description": "The contact last name",
+                                    "type": "string"
+                                },
+                                "organization": {
+                                    "description": "The contact organization",
+                                    "type": "string"
+                                },
+                                "phoneNumbers": {
+                                    "description": "The contact phone numbers",
+                                    "items": {
+                                        "properties": {
+                                            "label": {
+                                                "description": "The phone label",
+                                                "type": "string"
+                                            },
+                                            "primary": {
+                                                "description": "True if phone is primary",
+                                                "type": "boolean"
+                                            },
+                                            "value": {
+                                                "description": "The phone value",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "label",
+                                            "value"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "postalCode": {
+                                    "description": "The contact postal code",
+                                    "maxLength": 10,
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "description": "The contact region (state)",
+                                    "maxLength": 45,
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ],
+                    "description": "The Address. Required if bank account is not created from Token"
+                },
+                "bankName": {
+                    "description": "Bank's name.",
+                    "type": "string"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Bank Account created time"
+                },
+                "customFields": {
+                    "description": "\"Custom Fields list as a map `{\"custom field name\": \"custom field value\", ...}\"`.\nThe format must follow the saved format (see Custom Fields section for the formats).\n",
+                    "type": "object"
+                },
+                "customerId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The Customer's ID."
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The bank account identifier string",
+                    "readOnly": true
+                },
+                "routingNumber": {
+                    "description": "Bank's Routing Number. Required if bank account is not created from Token. This field is write-only",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Bank Account status",
+                    "enum": [
+                        "active",
+                        "deactivated"
+                    ],
+                    "type": "string"
+                },
+                "token": {
+                    "description": "Bank Account Token. Use without any other fields",
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Bank Account updated time"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

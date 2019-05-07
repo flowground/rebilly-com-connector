@@ -1,0 +1,224 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "href": {
+                                        "description": "The link URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href"
+                                ],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "rel": {
+                                "description": "The link type",
+                                "enum": [
+                                    "self"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "rel"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "appliedInvoiceId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The identifier of the invoice where the cancellation fees or credits are applied.",
+                    "readOnly": true
+                },
+                "canceledBy": {
+                    "default": "customer",
+                    "description": "Who did the cancellation",
+                    "enum": [
+                        "merchant",
+                        "customer"
+                    ],
+                    "type": "string"
+                },
+                "canceledTime": {
+                    "description": "The cancellation time (when the status is confirmed which is by default unless specified \"draft\").",
+                    "format": "date-time",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "churnTime": {
+                    "description": "The time when the subscription will be deactivated.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "createdTime": {
+                    "description": "The time of resource creation (when it is posted).",
+                    "format": "date-time",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Cancel reason description in free form",
+                    "maxLength": 255,
+                    "type": "string"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Cancellation identifier",
+                    "readOnly": true
+                },
+                "lineItemSubtotal": {
+                    "description": "Subtotal of the line items which will be added after the subscription's cancellation",
+                    "example": 49.95,
+                    "readOnly": true,
+                    "type": "number"
+                },
+                "lineItems": {
+                    "description": "Items to be added to the new invoice. Proration item is generated and added automatically.",
+                    "items": {
+                        "description": "Line item",
+                        "properties": {
+                            "description": {
+                                "description": "Description of line item",
+                                "type": "string"
+                            },
+                            "periodEndTime": {
+                                "description": "Date-time when the period ends for this item",
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "periodStartTime": {
+                                "description": "Date-time when the period begins for this item",
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "default": 1,
+                                "description": "Quantity of line item",
+                                "example": 1,
+                                "type": "integer"
+                            },
+                            "type": {
+                                "description": "Type of line item",
+                                "enum": [
+                                    "debit",
+                                    "credit"
+                                ],
+                                "type": "string"
+                            },
+                            "unitPriceAmount": {
+                                "description": "Unit price of the line item",
+                                "example": 49.95,
+                                "format": "double",
+                                "type": "number"
+                            },
+                            "unitPriceCurrency": {
+                                "description": "Currency ISO code",
+                                "example": "USD",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "unitPriceAmount",
+                            "unitPriceCurrency"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "prorated": {
+                    "default": false,
+                    "description": "Defines if the customer gets a pro-rata credit for the time remaining between `churnTime` and\nsubscription's next renewal time.\n",
+                    "type": "boolean"
+                },
+                "proratedInvoiceId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Identifier of the invoice on which the cancellation proration is calculated.",
+                    "readOnly": true
+                },
+                "reason": {
+                    "default": "other",
+                    "description": "Cancellation reason",
+                    "enum": [
+                        "did-not-use",
+                        "did-not-want",
+                        "missing-features",
+                        "bugs-or-problems",
+                        "do-not-remember",
+                        "risk-warning",
+                        "contract-expired",
+                        "too-expensive",
+                        "other",
+                        "billing-failure"
+                    ],
+                    "type": "string"
+                },
+                "status": {
+                    "default": "confirmed",
+                    "description": "\"draft\" defines that the cancellation isn't applied on an invoice and subscription but\ncan be inspected to see the charge.\n\"confirmed\" will set a subscription to be canceled when the `churnTime` is reached.\n\"completed\" is a read-only status which is set by the system when the churnTime is reached.\nThe cancellation may not be changed or deleted when the status is \"completed\".\n",
+                    "enum": [
+                        "draft",
+                        "confirmed",
+                        "completed",
+                        "revoked"
+                    ],
+                    "type": "string"
+                },
+                "subscriptionId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Identifier of the canceled subscription"
+                }
+            },
+            "required": [
+                "subscriptionId",
+                "churnTime"
+            ],
+            "type": "object"
+        }
+    }
+}

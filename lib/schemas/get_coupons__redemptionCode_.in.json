@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "redemptionCode": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

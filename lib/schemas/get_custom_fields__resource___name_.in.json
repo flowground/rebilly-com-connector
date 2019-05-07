@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "resource": {
+            "required": true,
+            "type": "string",
+            "enum": [
+                "customers",
+                "payment-cards",
+                "subscriptions",
+                "transactions",
+                "websites",
+                "contacts",
+                "products"
+            ]
+        },
+        "name": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

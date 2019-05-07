@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "amount": {
+                    "description": "Refund amount",
+                    "format": "double",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "amount"
+            ],
+            "type": "object"
+        }
+    }
+}

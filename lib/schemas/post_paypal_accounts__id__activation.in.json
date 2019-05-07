@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "amount": {
+                    "default": 1,
+                    "description": "The amount to authorize",
+                    "format": "double",
+                    "type": "number"
+                },
+                "currency": {
+                    "description": "Currency (three letter code)",
+                    "type": "string"
+                },
+                "gatewayAccountId": {
+                    "description": "The Gateway Account ID which use to send transactions",
+                    "type": "string"
+                },
+                "redirectURLs": {
+                    "description": "Redirect URLs",
+                    "type": "object"
+                },
+                "websiteId": {
+                    "description": "The Website ID",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "websiteId",
+                "currency"
+            ],
+            "type": "object"
+        }
+    }
+}

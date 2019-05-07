@@ -1,0 +1,299 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "self"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "file"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "customer"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "minItems": 3,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Creation date/time"
+                },
+                "customerId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Linked Customer object id"
+                },
+                "documentMatches": {
+                    "properties": {
+                        "data": {
+                            "properties": {
+                                "containsImage": {
+                                    "description": "Flag that indicates if there is an image that contains a face on it",
+                                    "example": true,
+                                    "type": "boolean"
+                                },
+                                "dateOfBirth": {
+                                    "allOf": [
+                                        {
+                                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                                            "format": "date-time",
+                                            "readOnly": true,
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "description": "The date of birth found on the document, null if not found"
+                                },
+                                "expiryDate": {
+                                    "allOf": [
+                                        {
+                                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                                            "format": "date-time",
+                                            "readOnly": true,
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "description": "The expiry date found on the document, null if not found"
+                                },
+                                "firstName": {
+                                    "description": "The customer first name if it was matched, null otherwise",
+                                    "example": "John",
+                                    "type": "string"
+                                },
+                                "hasMinimalAge": {
+                                    "description": "Checks the minimal age, 21+ for USA and 18+ for all other countries. Null if dateOfBirth could not be determined.",
+                                    "example": true,
+                                    "type": "boolean"
+                                },
+                                "isIdentityDocument": {
+                                    "description": "Flag that indicates if this looks like and ID",
+                                    "example": true,
+                                    "type": "boolean"
+                                },
+                                "isPublishedOnline": {
+                                    "description": "If there is an exact match found online",
+                                    "example": false,
+                                    "type": "boolean"
+                                },
+                                "issueDate": {
+                                    "allOf": [
+                                        {
+                                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                                            "format": "date-time",
+                                            "readOnly": true,
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "description": "The issued date found on the document, null if not found"
+                                },
+                                "lastName": {
+                                    "description": "The customer last name if it was matched, null otherwise",
+                                    "example": "Doe",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "score": {
+                            "description": "The calculated score that represents the % of confidence that this ID respresents the given customer",
+                            "example": 0.75,
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    "readOnly": true,
+                    "type": "object"
+                },
+                "documentType": {
+                    "description": "Document type submitted for validation, only identity-proof type is analyzed in an automated manner",
+                    "enum": [
+                        "identity-proof",
+                        "address-proof"
+                    ],
+                    "type": "string"
+                },
+                "fileId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Linked File object id"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "readOnly": true
+                },
+                "processedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Processing date/time"
+                },
+                "rejectionReason": {
+                    "properties": {
+                        "message": {
+                            "description": "The rejection message",
+                            "example": "Provided document is unreadable",
+                            "type": "string"
+                        },
+                        "type": {
+                            "enum": [
+                                "document-unreadable",
+                                "document-expired",
+                                "document-not-matching",
+                                "underage-person",
+                                "other"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "readOnly": true,
+                    "type": "object"
+                },
+                "status": {
+                    "description": "Status of the validation",
+                    "enum": [
+                        "pending",
+                        "in-progress",
+                        "accepted",
+                        "rejected"
+                    ],
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Latest update date/time"
+                }
+            },
+            "required": [
+                "fileId",
+                "customerId",
+                "documentType",
+                "status"
+            ],
+            "type": "object"
+        }
+    }
+}

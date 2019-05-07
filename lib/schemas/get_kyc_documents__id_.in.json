@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "Accept": {
+            "type": "string",
+            "enum": [
+                "application/json"
+            ],
+            "default": "application/json"
+        }
+    }
+}

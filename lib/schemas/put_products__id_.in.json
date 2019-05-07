@@ -1,0 +1,140 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "description": "Products include digital goods, services, and physical goods.\nProducts appear on invoice line items. If you set a tax category identifier,\ntaxes will be calculated upon invoice generation.  If it is shippable,\nshipping will be calculated upon invoice generation.  Pricing and \nvariations are set within Plans.\n",
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "href": {
+                                        "description": "The link URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href"
+                                ],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "rel": {
+                                "description": "The link type",
+                                "enum": [
+                                    "self"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "rel"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "accountingCode": {
+                    "description": "The product accounting code",
+                    "example": 4010,
+                    "type": "string"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The product created time"
+                },
+                "customFields": {
+                    "description": "\"Custom Fields list as a map `{\"custom field name\": \"custom field value\", ...}\"`.\nThe format must follow the saved format (see Custom Fields section for the formats).\n",
+                    "type": "object"
+                },
+                "description": {
+                    "description": "The product description",
+                    "maxLength": 512,
+                    "type": "string"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The product identifier string",
+                    "example": "membership",
+                    "readOnly": true
+                },
+                "name": {
+                    "description": "The product name",
+                    "example": "Premium membership",
+                    "maxLength": 255,
+                    "type": "string"
+                },
+                "options": {
+                    "description": "The product options such as Color, Size, etc.  The product options definition does not include option values.  Those are defined within the Plans.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "requiresShipping": {
+                    "description": "If the product requires shipping, shipping calculations will be applied",
+                    "example": false,
+                    "type": "boolean"
+                },
+                "taxCategoryId": {
+                    "description": "The product's tax category identifier string",
+                    "enum": [
+                        99999,
+                        20010,
+                        40030,
+                        51020,
+                        51010,
+                        31000,
+                        30070
+                    ],
+                    "type": "string"
+                },
+                "unitLabel": {
+                    "default": "unit",
+                    "description": "The unit label, such as per `seat` or per `unit`.",
+                    "example": "seat",
+                    "maxLength": 50,
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The product updated time"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    }
+}

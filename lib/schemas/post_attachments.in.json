@@ -1,0 +1,184 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "_links": {
+                    "description": "The links related to resource",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "self"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "file"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "href": {
+                                                "description": "The link URL",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "href"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ],
+                                "properties": {
+                                    "rel": {
+                                        "description": "The link type",
+                                        "enum": [
+                                            "customer",
+                                            "dispute",
+                                            "invoice",
+                                            "note",
+                                            "payment",
+                                            "plan",
+                                            "product",
+                                            "subscription",
+                                            "transaction"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "rel"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "minItems": 3,
+                    "readOnly": true,
+                    "type": "array"
+                },
+                "createdTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Creation date/time"
+                },
+                "description": {
+                    "description": "The Attachment description",
+                    "type": "string"
+                },
+                "fileId": {
+                    "description": "Linked File object id",
+                    "type": "string"
+                },
+                "id": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "readOnly": true
+                },
+                "name": {
+                    "description": "The Original Attachment name",
+                    "type": "string"
+                },
+                "relatedId": {
+                    "description": "Linked object Id",
+                    "type": "string"
+                },
+                "relatedType": {
+                    "description": "Linked object type",
+                    "enum": [
+                        "customer",
+                        "dispute",
+                        "invoice",
+                        "note",
+                        "payment",
+                        "plan",
+                        "product",
+                        "subscription",
+                        "transaction"
+                    ],
+                    "type": "string"
+                },
+                "updatedTime": {
+                    "allOf": [
+                        {
+                            "description": "Read-only timestamp, automatically assigned on back-end.",
+                            "format": "date-time",
+                            "readOnly": true,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Latest update date/time"
+                }
+            },
+            "required": [
+                "fileId",
+                "relatedId",
+                "relatedType"
+            ],
+            "type": "object"
+        }
+    }
+}

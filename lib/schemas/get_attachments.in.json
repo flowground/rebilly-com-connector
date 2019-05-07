@@ -1,0 +1,48 @@
+{
+    "type": "object",
+    "properties": {
+        "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+        },
+        "offset": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "filter": {
+            "type": "string"
+        },
+        "q": {
+            "type": "string"
+        },
+        "expand": {
+            "type": "string"
+        },
+        "fields": {
+            "type": "string"
+        },
+        "sort": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "id",
+                    "-id",
+                    "name",
+                    "-name",
+                    "relatedId",
+                    "-relatedId",
+                    "relatedType",
+                    "-relatedType",
+                    "fileId",
+                    "-fileId",
+                    "createdTime",
+                    "-createdTime",
+                    "updatedTime",
+                    "-updatedTime"
+                ],
+                "type": "string"
+            }
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "effectiveTime": {
+                    "description": "The date from which the renewal time (for `reset` operations) and proration calculations are made.  If omitted, it will default to the current time.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "planId": {
+                    "allOf": [
+                        {
+                            "description": "The resource ID. Defaults to UUID v4",
+                            "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21",
+                            "maxLength": 50,
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The plan identifier string"
+                },
+                "preview": {
+                    "default": false,
+                    "description": "If set to true, it will not change the subscription.  It allows for a way to preview the changes that would be made to a subscription.",
+                    "type": "boolean"
+                },
+                "prorated": {
+                    "description": "Whether or not to give a pro rata credit for the amount of time remaining between the `effectiveTime` and the end of the current period.\nIn addition, if the `renewalTime` is retained (by setting the `renewalPolicy` to `retain`), then a pro rata debit will occur as well,\nfor the amount between the `effectiveTime` and the `renewalTime` as a percentage of the normal period size.\n",
+                    "type": "boolean"
+                },
+                "renewalPolicy": {
+                    "description": "The value determines whether the subscription retains its current `renewalTime` or resets it to a newly calculated `renewalTime`.",
+                    "enum": [
+                        "reset",
+                        "retain"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "planId",
+                "renewalPolicy",
+                "prorated"
+            ],
+            "type": "object"
+        }
+    }
+}

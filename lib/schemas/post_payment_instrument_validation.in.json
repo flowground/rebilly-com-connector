@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "method": {
+                    "description": "Payment method",
+                    "type": "string"
+                },
+                "payementInstrumentId": {
+                    "description": "Payment instrument ID",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "method",
+                "payementInstrumentId"
+            ],
+            "type": "object"
+        }
+    }
+}

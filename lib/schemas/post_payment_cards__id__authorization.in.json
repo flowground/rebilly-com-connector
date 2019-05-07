@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "amount": {
+                    "description": "Amount",
+                    "format": "double",
+                    "type": "number"
+                },
+                "currency": {
+                    "description": "Currency (three letter code)",
+                    "type": "string"
+                },
+                "gatewayAccountId": {
+                    "description": "The Gateway account ID",
+                    "type": "string"
+                },
+                "websiteId": {
+                    "description": "The Website ID",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "websiteId",
+                "currency"
+            ],
+            "type": "object"
+        }
+    }
+}
